@@ -1740,7 +1740,7 @@ MonoBehaviour:
   player: {fileID: 1133826799}
   MouseX: 0
   MouseY: 0
-  Sens: 200
+  Sens: 400
 --- !u!81 &611390391
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2630,8 +2630,8 @@ MonoBehaviour:
   sprintSpeed: 4
   crouchSpeed: 2.5
   jumpForce: 1
-  x: 0
-  z: 0
+  bunnyHopBoost: 1.2
+  maxBunnyHopSpeed: 15
 --- !u!136 &1133826801
 CapsuleCollider:
   m_ObjectHideFlags: 0
