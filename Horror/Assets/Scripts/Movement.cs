@@ -7,8 +7,8 @@ public class Movement : MonoBehaviour
     public float sprintSpeed = 4f;
     public float crouchSpeed = 2.5f;
     public float jumpForce = 1f;
-    public float bunnyHopBoost = 1.2f; // Bonus prêdkoœci przy bunnyhopie
-    public float maxBunnyHopSpeed = 15f; // Limit prêdkoœci bunnyhopa
+    public float bunnyHopBoost = 1.2f;
+    public float maxBunnyHopSpeed = 15f;
 
     private float x;
     private float z;
@@ -50,13 +50,12 @@ public class Movement : MonoBehaviour
 
         Vector3 move = player.right * x + player.forward * z;
 
-        // Bunnyhop mechanic
         if (controller.isGrounded)
         {
             velocity.y = -2f;
             canBunnyHop = true;
 
-            if (Input.GetKeyDown(KeyCode.Space) && !isCrouching)
+            if ((Input.GetKeyDown(KeyCode.Space) || Input.mouseScrollDelta.y < 0) && !isCrouching)
             {
                 velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
 
@@ -70,7 +69,6 @@ public class Movement : MonoBehaviour
 
         controller.Move(move * currentSpeed * Time.deltaTime);
 
-        // Gravity
         velocity.y += Physics.gravity.y * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
