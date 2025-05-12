@@ -15,6 +15,10 @@ public class PlayerPickup : MonoBehaviour
 
     private GameObject currentItem;
 
+    public AudioSource audioSource;
+    public AudioClip pickupSound;
+    public AudioClip dropSound;
+
     void Update()
     {
         if (Input.GetKeyDown(pickupKey))
@@ -68,6 +72,12 @@ public class PlayerPickup : MonoBehaviour
         rb.isKinematic = true; 
         rb.useGravity = false; 
         rb.linearVelocity = Vector3.zero;
+
+        // dŸwiêk podnoszenia
+        if (audioSource != null && pickupSound != null)
+        {
+            audioSource.PlayOneShot(pickupSound);
+        }
     }
 
     void DropItem()
@@ -84,6 +94,12 @@ public class PlayerPickup : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
+
         currentItem = null;
+        // dŸwiêk upuszczania
+        if (audioSource != null && dropSound != null)
+        {
+            audioSource.PlayOneShot(dropSound);
+        }
     }
 }
