@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 public class DoorScript : MonoBehaviour
 {
-    Animator doorAnimation;
+    Animator doorAnimator;
     public Transform player;
     public float detectionDistance = 3f;
     public LayerMask playerLayer;
@@ -13,7 +13,7 @@ public class DoorScript : MonoBehaviour
 
     void Start()
     {
-        doorAnimation = GetComponent<Animator>();
+        doorAnimator = GetComponent<Animator>();
     }
     void Update()
     {
@@ -45,7 +45,7 @@ public class DoorScript : MonoBehaviour
     }
     void OpenDoor()
     {
-        if (doorAnimation != null)
+        if (doorAnimator != null)
         {
             if (!string.IsNullOrEmpty(keyLayerName))
             {
@@ -66,7 +66,7 @@ public class DoorScript : MonoBehaviour
                 }
 
             }
-            doorAnimation.SetTrigger("OpenDoor");
+            doorAnimator.SetTrigger("Open");
         }
     }
 }
