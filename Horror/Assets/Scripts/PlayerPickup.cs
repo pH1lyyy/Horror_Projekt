@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using System;
 
 public class PlayerPickup : MonoBehaviour
 {
@@ -9,9 +7,7 @@ public class PlayerPickup : MonoBehaviour
     public KeyCode dropKey = KeyCode.G;
 
     public Transform itemHoldPosition;
-
-    public Transform playerBody;
-    public Transform keyHolder;
+    public Transform playerBody;  // Przedmiot bêdzie dzieckiem playerBody
 
     private GameObject currentItem;
 
@@ -33,7 +29,7 @@ public class PlayerPickup : MonoBehaviour
 
     void PickupItem()
     {
-        if (currentItem != null) return; // zapobieganie podnoszeniu 2 przedmiotó jednoczesnie
+        if (currentItem != null) return;
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, pickupRadius);
 
@@ -42,7 +38,7 @@ public class PlayerPickup : MonoBehaviour
 
         foreach (Collider hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Item"))
+            if (hitCollider.CompareTag("Item") || hitCollider.CompareTag("Axe"))
             {
                 float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
                 if (distance < closestDistance)
@@ -62,16 +58,18 @@ public class PlayerPickup : MonoBehaviour
     void Pickup(GameObject item)
     {
         currentItem = item;
-        item.transform.SetParent(itemHoldPosition);
-        item.transform.localPosition = Vector3.zero;
-        item.transform.localRotation = Quaternion.identity;
+        // Przypisz parent na playerBody (nie itemHoldPosition)
+        item.transform.SetParent(playerBody);
+
+        // Ustaw pozycjê i rotacjê zgodnie z itemHoldPosition
+        item.transform.position = itemHoldPosition.position;
+        item.transform.rotation = itemHoldPosition.rotation;
 
         Rigidbody rb = item.GetComponent<Rigidbody>();
         if (rb == null) rb = item.AddComponent<Rigidbody>();
 
-        rb.isKinematic = true; 
-        rb.useGravity = false; 
-        rb.linearVelocity = Vector3.zero;
+        rb.isKinematic = true;
+        rb.useGravity = false;
 
         // dŸwiêk podnoszenia
         if (audioSource != null && pickupSound != null)
@@ -90,12 +88,10 @@ public class PlayerPickup : MonoBehaviour
         if (rb == null) rb = currentItem.AddComponent<Rigidbody>();
 
         rb.isKinematic = false;
-        rb.useGravity = true; 
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-
+        rb.useGravity = true;
 
         currentItem = null;
+
         // dŸwiêk upuszczania
         if (audioSource != null && dropSound != null)
         {

@@ -1,8 +1,6 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
-public class Playerinteraction : MonoBehaviour
+public class PlayerInteraction : MonoBehaviour
 {
     public float interactionDistance = 3f;
     public Camera playerCamera;
@@ -18,7 +16,7 @@ public class Playerinteraction : MonoBehaviour
                 WoodPlank woodPlank = hit.collider.GetComponent<WoodPlank>();
                 if (woodPlank != null)
                 {
-                    if (IsHoldingAxe())
+                    if (IsHoldingAxe(player.transform))
                     {
                         woodPlank.Fall();
                     }
@@ -29,13 +27,23 @@ public class Playerinteraction : MonoBehaviour
                 }
             }
         }
-
     }
-    private bool IsHoldingAxe()
+
+    private bool IsHoldingAxe(Transform parent)
     {
-        foreach (Transform child in player.transform)
+        foreach (Transform child in parent)
         {
-            if (child.gameObject.layer ==  LayerMask.NameToLayer("Axe"))
+            // Sprawdzamy warstwê, tag lub nazwê
+            if (child.gameObject.layer == LayerMask.NameToLayer("Axe") ||
+                child.CompareTag("Axe") ||
+                child.name.Contains("Axe"))
+            {
+                Debug.Log("Gracz trzyma siekierê (znalezione: " + child.name + ")");
+                return true;
+            }
+
+            // Rekurencyjnie sprawdŸ dzieci
+            if (IsHoldingAxe(child))
             {
                 return true;
             }
