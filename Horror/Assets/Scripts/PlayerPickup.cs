@@ -97,5 +97,11 @@ public class PlayerPickup : MonoBehaviour
         {
             audioSource.PlayOneShot(dropSound);
         }
+        MonsterAI monsterAI = FindObjectOfType<MonsterAI>();
+        if (monsterAI != null)
+        {
+            monsterAI.OnSoundHeard(transform.position);
+        }
+
     }
 }
