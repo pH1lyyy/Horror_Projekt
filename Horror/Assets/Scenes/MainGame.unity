@@ -2473,6 +2473,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3.5
   startPosition: {fileID: 1384336178}
+  player: {fileID: 1133826799}
+  detectionRadius: 15
+  attackRange: 2
+  attackCooldown: 1
 --- !u!1 &696479204
 GameObject:
   m_ObjectHideFlags: 0
