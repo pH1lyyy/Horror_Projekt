@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 public class DoorScript : MonoBehaviour
 {
     Animator doorAnimator;
@@ -10,11 +11,13 @@ public class DoorScript : MonoBehaviour
     private bool isPlayerNear = false;
     public string keyLayerName = "";
 
+    private bool isOpen = false;
 
     void Start()
     {
         doorAnimator = GetComponent<Animator>();
     }
+
     void Update()
     {
         CheckPlayerDistance();
@@ -23,12 +26,13 @@ public class DoorScript : MonoBehaviour
             OnDoorButtonPress();
         }
     }
+
     void CheckPlayerDistance()
     {
         RaycastHit hit;
-        Vector3 directiontoPlayer = player.position - transform.position;
+        Vector3 directionToPlayer = player.position - transform.position;
 
-        if (Physics.Raycast(transform.position, directiontoPlayer, out hit, detectionDistance, playerLayer))
+        if (Physics.Raycast(transform.position, directionToPlayer, out hit, detectionDistance, playerLayer))
         {
             if (hit.transform == player)
             {
@@ -37,16 +41,13 @@ public class DoorScript : MonoBehaviour
             }
         }
         isPlayerNear = false;
-
     }
+
     public void OnDoorButtonPress()
     {
-        OpenDoor();
-    }
-    void OpenDoor()
-    {
-        if (doorAnimator != null)
+        if (!isOpen)
         {
+            // sprawdzamy czy jest klucz
             if (!string.IsNullOrEmpty(keyLayerName))
             {
                 bool playerHasKey = false;
@@ -57,16 +58,37 @@ public class DoorScript : MonoBehaviour
                         playerHasKey = true;
                         break;
                     }
-
                 }
-                if(!playerHasKey)
+                if (!playerHasKey)
                 {
                     Debug.Log("You need a key to open this door.");
                     return;
                 }
-
             }
+
+            OpenDoor();
+        }
+        else
+        {
+            CloseDoor();
+        }
+    }
+
+    void OpenDoor()
+    {
+        if (doorAnimator != null)
+        {
             doorAnimator.SetTrigger("Open");
+            isOpen = true;
+        }
+    }
+
+    void CloseDoor()
+    {
+        if (doorAnimator != null)
+        {
+            doorAnimator.SetTrigger("Close");
+            isOpen = false;
         }
     }
 }
