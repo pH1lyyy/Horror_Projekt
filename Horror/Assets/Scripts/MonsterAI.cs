@@ -26,11 +26,20 @@ public class MonsterAI : MonoBehaviour
     float lastAttackTime = 0f;
 
     private Animator animator;
+
+    [Header("Footstep")]
+
+    public AudioClip[] footstepSounds;
+    AudioSource audioSource;
+    float footstepInterval = .5f;
+    float NextFootstepTime = 0f;
+
     void Start()
     {
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         navMeshAgent.speed = moveSpeed;
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -45,7 +54,7 @@ public class MonsterAI : MonoBehaviour
         {
             AttackPlayer();
         }
-        else if (isChasing && SoundHeard)
+        else if (isChasing)
         {
             ChasePlayer();
         }
@@ -54,6 +63,7 @@ public class MonsterAI : MonoBehaviour
             LookingForPlayer();
         }
         UpdateAnimations();
+        PlayFootstepSounds(); 
     }
 
     public void OnSoundHeard(Vector3 location)
@@ -156,5 +166,19 @@ public class MonsterAI : MonoBehaviour
         {
             animator.SetBool("isIdle", false);
         }
+    }
+    void PlayFootstepSounds()
+    {
+       
+            if (navMeshAgent.velocity.magnitude > 0.1f && Time.time >= NextFootstepTime)
+            {
+                if (footstepSounds.Length > 0)
+                {
+                    AudioClip footstepSound = footstepSounds[Random.Range(0, footstepSounds.Length)];
+                    audioSource.PlayOneShot(footstepSound);
+                    NextFootstepTime = Time.time + footstepInterval;
+                }
+            }
+        
     }
 }
