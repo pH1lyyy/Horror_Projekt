@@ -137,10 +137,10 @@ public class MonsterAI : MonoBehaviour
     {
         if (Time.time > lastAttackTime + attackCooldown)
         {
-            CharacterController playerController = player.GetComponent<CharacterController>();
-            if (playerController != null)
+            PlayerControls playerControls = player.GetComponent<PlayerControls>();
+            if (playerControls != null)
             {
-                Debug.Log("Attacking player!");
+                playerControls.TakeDamage(50f);
             }
             lastAttackTime = Time.time;
 

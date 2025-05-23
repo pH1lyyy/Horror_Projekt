@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerControls : MonoBehaviour
 {
     public Transform player;
     public float speed = 5f;
@@ -18,13 +19,22 @@ public class Movement : MonoBehaviour
     private bool isCrouching = false;
     private bool canBunnyHop = false;
 
+
+    public float currentHealth;
+    float maxHealth = 100f;
+    private bool isDead = false;
+
+    public Transform startPostion;
     void Start()
     {
         controller = player.GetComponent<CharacterController>();
+        currentHealth = maxHealth;
     }
 
     void Update()
     {
+        if (!controller.enabled) return;
+
         float currentSpeed = speed;
 
         // Sprint
@@ -71,5 +81,32 @@ public class Movement : MonoBehaviour
 
         velocity.y += Physics.gravity.y * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0 && !isDead)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        isDead = true;
+      
+        Debug.Log("Player has died.");
+        StartCoroutine(Respawn());
+    }
+    IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(2f); 
+        controller.enabled = false; 
+        transform.position = startPostion.position;
+        controller.enabled = true;
+
+        yield return new WaitForSeconds(3f);
+        currentHealth = maxHealth;
+        isDead = false;
+        Debug.Log("Player has respawned.");
     }
 }
