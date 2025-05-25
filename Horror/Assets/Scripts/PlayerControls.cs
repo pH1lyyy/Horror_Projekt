@@ -24,6 +24,7 @@ public class PlayerControls : MonoBehaviour
     float maxHealth = 100f;
     private bool isDead = false;
 
+    public GameObject loadingScreen;
     public Transform startPostion;
     void Start()
     {
@@ -95,16 +96,19 @@ public class PlayerControls : MonoBehaviour
         isDead = true;
       
         Debug.Log("Player has died.");
+        GameManager.instance.DecreaseDay();
         StartCoroutine(Respawn());
     }
     IEnumerator Respawn()
     {
         yield return new WaitForSeconds(2f); 
+        loadingScreen.SetActive(true);
         controller.enabled = false; 
         transform.position = startPostion.position;
         controller.enabled = true;
 
         yield return new WaitForSeconds(3f);
+        loadingScreen.SetActive(false);
         currentHealth = maxHealth;
         isDead = false;
         Debug.Log("Player has respawned.");
