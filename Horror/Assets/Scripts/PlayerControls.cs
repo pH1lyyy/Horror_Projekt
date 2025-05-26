@@ -26,6 +26,10 @@ public class PlayerControls : MonoBehaviour
 
     public GameObject loadingScreen;
     public Transform startPostion;
+    public GameObject playerHitPanel;
+    public AudioSource hitAudioSource;
+    public AudioClip hitSound;
+
     void Start()
     {
         controller = player.GetComponent<CharacterController>();
@@ -86,19 +90,51 @@ public class PlayerControls : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        if (hitAudioSource != null && hitSound != null)
+        {
+            hitAudioSource.PlayOneShot(hitSound);
+        }
+        if (playerHitPanel != null)
+        {
+            StartCoroutine(ShowHitPanel());
+        }
+
         if (currentHealth <= 0 && !isDead)
         {
             Die();
         }
     }
+
+    IEnumerator ShowHitPanel()
+    {
+        if (!isDead && playerHitPanel != null)
+        {
+            playerHitPanel.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        if (!isDead && playerHitPanel != null)
+        {
+            playerHitPanel.SetActive(false);
+        }
+    }
+
+
     void Die()
     {
         isDead = true;
-      
+
+        if (playerHitPanel != null)
+        {
+            playerHitPanel.SetActive(false); 
+        }
+
         Debug.Log("Player has died.");
         GameManager.instance.DecreaseDay();
         StartCoroutine(Respawn());
     }
+
     IEnumerator Respawn()
     {
         yield return new WaitForSeconds(2f); 
