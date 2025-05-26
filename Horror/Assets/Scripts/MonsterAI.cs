@@ -155,9 +155,15 @@ public class MonsterAI : MonoBehaviour
     }
     void UpdateAnimations()
     {
-        bool isMoving = navMeshAgent.velocity.magnitude > 0.1f;
+        float speed = navMeshAgent.velocity.magnitude;
+
+        bool isMoving = speed > 0.1f;
+        bool isRunning = speed > 3.0f;
+
         animator.SetBool("isWalking", isMoving);
+        animator.SetBool("isRunning", isRunning);
         animator.SetBool("isAttacking", isAttacking);
+
         if (!isMoving && !isAttacking)
         {
             animator.SetBool("isIdle", true);
@@ -167,6 +173,7 @@ public class MonsterAI : MonoBehaviour
             animator.SetBool("isIdle", false);
         }
     }
+
     void PlayFootstepSounds()
     {
        
