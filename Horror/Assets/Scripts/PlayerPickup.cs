@@ -6,8 +6,10 @@ public class PlayerPickup : MonoBehaviour
     public KeyCode pickupKey = KeyCode.E;
     public KeyCode dropKey = KeyCode.G;
 
-    public Transform itemHoldPosition;
-    public Transform playerBody;  // Przedmiot bêdzie dzieckiem playerBody
+    public Transform itemHoldPosition;     // dla key
+    public Transform itemHoldPosition2;    // dla axe
+    public Transform itemHoldPosition3;    // dla card
+    public Transform playerBody;
 
     private GameObject currentItem;
 
@@ -38,7 +40,7 @@ public class PlayerPickup : MonoBehaviour
 
         foreach (Collider hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Item") || hitCollider.CompareTag("Axe"))
+            if (hitCollider.CompareTag("Item") || hitCollider.CompareTag("Axe") || hitCollider.CompareTag("Card"))
             {
                 float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
                 if (distance < closestDistance)
@@ -58,12 +60,22 @@ public class PlayerPickup : MonoBehaviour
     void Pickup(GameObject item)
     {
         currentItem = item;
-        // Przypisz parent na playerBody (nie itemHoldPosition)
         item.transform.SetParent(playerBody);
 
-        // Ustaw pozycjê i rotacjê zgodnie z itemHoldPosition
-        item.transform.position = itemHoldPosition.position;
-        item.transform.rotation = itemHoldPosition.rotation;
+        Transform holdPoint = itemHoldPosition; 
+
+       
+        if (item.CompareTag("Axe"))
+        {
+            holdPoint = itemHoldPosition2;
+        }
+        else if (item.CompareTag("Card"))
+        {
+            holdPoint = itemHoldPosition3;
+        }
+
+        item.transform.position = holdPoint.position;
+        item.transform.rotation = holdPoint.rotation;
 
         Rigidbody rb = item.GetComponent<Rigidbody>();
         if (rb == null) rb = item.AddComponent<Rigidbody>();
@@ -71,7 +83,6 @@ public class PlayerPickup : MonoBehaviour
         rb.isKinematic = true;
         rb.useGravity = false;
 
-        // dŸwiêk podnoszenia
         if (audioSource != null && pickupSound != null)
         {
             audioSource.PlayOneShot(pickupSound);
@@ -92,16 +103,15 @@ public class PlayerPickup : MonoBehaviour
 
         currentItem = null;
 
-        // dŸwiêk upuszczania
         if (audioSource != null && dropSound != null)
         {
             audioSource.PlayOneShot(dropSound);
         }
+
         MonsterAI monsterAI = FindObjectOfType<MonsterAI>();
         if (monsterAI != null)
         {
             monsterAI.OnSoundHeard(transform.position);
         }
-
     }
 }
