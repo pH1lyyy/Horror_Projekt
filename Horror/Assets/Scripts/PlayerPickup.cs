@@ -9,6 +9,7 @@ public class PlayerPickup : MonoBehaviour
     public Transform itemHoldPosition;     // dla key
     public Transform itemHoldPosition2;    // dla axe
     public Transform itemHoldPosition3;    // dla card
+    public Transform itemHoldPosition4;    // dla flashlight
     public Transform playerBody;
 
     private GameObject currentItem;
@@ -40,7 +41,7 @@ public class PlayerPickup : MonoBehaviour
 
         foreach (Collider hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Item") || hitCollider.CompareTag("Axe") || hitCollider.CompareTag("Card"))
+            if (hitCollider.CompareTag("Item") || hitCollider.CompareTag("Axe") || hitCollider.CompareTag("Card") || hitCollider.CompareTag("Flashlight"))
             {
                 float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
                 if (distance < closestDistance)
@@ -62,9 +63,8 @@ public class PlayerPickup : MonoBehaviour
         currentItem = item;
         item.transform.SetParent(playerBody);
 
-        Transform holdPoint = itemHoldPosition; 
+        Transform holdPoint = itemHoldPosition;
 
-       
         if (item.CompareTag("Axe"))
         {
             holdPoint = itemHoldPosition2;
@@ -72,6 +72,10 @@ public class PlayerPickup : MonoBehaviour
         else if (item.CompareTag("Card"))
         {
             holdPoint = itemHoldPosition3;
+        }
+        else if (item.CompareTag("Flashlight"))
+        {
+            holdPoint = itemHoldPosition4;
         }
 
         item.transform.position = holdPoint.position;
