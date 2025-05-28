@@ -3,10 +3,10 @@ using UnityEngine;
 public class KeyCardPad : MonoBehaviour
 {
     public AudioClip unlockSound;
+    public GameObject gameCompletePanel;
+
     private AudioSource audioSource;
-
     private bool isUnlocked = false;
-
     private Camera mainCam;
 
     void Start()
@@ -15,6 +15,11 @@ public class KeyCardPad : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
+
+        if (gameCompletePanel != null)
+        {
+            gameCompletePanel.SetActive(false);
+        }
     }
 
     void Update()
@@ -66,6 +71,11 @@ public class KeyCardPad : MonoBehaviour
             audioSource.PlayOneShot(unlockSound);
         }
 
-       
+        if (WoodPlank.FallenPlanksCount >= 2 && gameCompletePanel != null)
+        {
+            gameCompletePanel.SetActive(true);
+            Debug.Log("Game Complete!");
+        }
     }
 }
+
