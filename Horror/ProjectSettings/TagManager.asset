@@ -9,6 +9,8 @@ TagManager:
   - Keypad
   - Key
   - Card
+  - Flashlight
+  - Monster
   layers:
   - Default
   - TransparentFX

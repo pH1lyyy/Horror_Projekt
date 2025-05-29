@@ -1,9 +1,4 @@
-﻿//  - EmissionMaterialGlassTorchFadeOut - Script by Marcelli Michele
-
-// This script is attached to child light of the Electric Torch
-// and takes the emission material in conjunction with the light
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EmissionMaterialGlassTorchFadeOut : MonoBehaviour
 {

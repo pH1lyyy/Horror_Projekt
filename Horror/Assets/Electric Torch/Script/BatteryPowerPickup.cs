@@ -1,8 +1,4 @@
-﻿// - BatteryPowerPickup - Script by Marcelli Michele
-// Attach this script on a GameObject (battery pickup) with collider component
-
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BatteryPowerPickup : MonoBehaviour
 {

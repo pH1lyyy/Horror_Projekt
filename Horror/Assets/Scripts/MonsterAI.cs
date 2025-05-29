@@ -33,6 +33,8 @@ public class MonsterAI : MonoBehaviour
     AudioSource audioSource;
     float footstepInterval = .5f;
     float NextFootstepTime = 0f;
+    private bool isStunned = false;
+    private float stunTimer = 0f;
 
     void Start()
     {
@@ -63,7 +65,25 @@ public class MonsterAI : MonoBehaviour
             LookingForPlayer();
         }
         UpdateAnimations();
-        PlayFootstepSounds(); 
+        PlayFootstepSounds();
+
+        if (isStunned)
+        {
+            stunTimer -= Time.deltaTime;
+            navMeshAgent.isStopped = true;
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
+
+            if (stunTimer <= 0f)
+            {
+                isStunned = false;
+                navMeshAgent.isStopped = false;
+            }
+
+            return; // pomijamy inne stany
+        }
+
     }
 
     public void OnSoundHeard(Vector3 location)
@@ -188,4 +208,15 @@ public class MonsterAI : MonoBehaviour
             }
         
     }
+    public void ApplyStun(float duration)
+    {
+        if (!isStunned)
+        {
+            isStunned = true;
+            stunTimer = duration;
+            navMeshAgent.isStopped = true;
+            Debug.Log("Potwór zosta³ oœlepiony i zamro¿ony!");
+        }
+    }
+
 }
