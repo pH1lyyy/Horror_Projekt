@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public bool allLocksOpen;
 
     public Text daysText;
+    public GameObject gameOverPanel; 
+    public AudioClip ambientClip;   
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -22,8 +25,21 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-
+            return;
         }
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = ambientClip;
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
+        audioSource.volume = 0.05f;
+        audioSource.Play();
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+
         currentDay = maxDays;
         UpdateDaysText();
     }
@@ -37,18 +53,22 @@ public class GameManager : MonoBehaviour
             EndGame();
         }
     }
-        void EndGame()
-        {
+
+    void EndGame()
+    {
         Debug.Log("Game Over!");
-        }
 
-        void UpdateDaysText()
+        if (gameOverPanel != null)
         {
-            if (daysText != null)
-            {
-                daysText.text = "Days left " + currentDay;
-            }
+            gameOverPanel.SetActive(true);
         }
-
     }
 
+    void UpdateDaysText()
+    {
+        if (daysText != null)
+        {
+            daysText.text = "Days left " + currentDay;
+        }
+    }
+}
