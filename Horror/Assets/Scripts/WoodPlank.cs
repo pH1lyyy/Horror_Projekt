@@ -21,7 +21,7 @@ public class WoodPlank : MonoBehaviour
             fallenPlanksCount++;
             if (fallenPlanksCount >= 2)
             {
-                Debug.Log("Door unlocked");
+                Debug.Log("Drzwi zosta³y otworzone");
             }
         }
     }

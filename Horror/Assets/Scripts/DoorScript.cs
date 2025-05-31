@@ -61,7 +61,7 @@ public class DoorScript : MonoBehaviour
                 }
                 if (!playerHasKey)
                 {
-                    Debug.Log("You need a key to open this door.");
+                    Debug.Log("Potrzebuejsz klucza aby otworzyæ drzwi.");
                     return;
                 }
             }

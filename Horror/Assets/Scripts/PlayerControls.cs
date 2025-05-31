@@ -29,6 +29,8 @@ public class PlayerControls : MonoBehaviour
     public GameObject playerHitPanel;
     public AudioSource hitAudioSource;
     public AudioClip hitSound;
+    public Transform monster;                
+    public Transform monsterStartPosition;
 
     void Start()
     {
@@ -48,7 +50,7 @@ public class PlayerControls : MonoBehaviour
             currentSpeed = sprintSpeed;
         }
 
-        // Crouch
+        // Kucanie
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             isCrouching = !isCrouching;
@@ -130,23 +132,39 @@ public class PlayerControls : MonoBehaviour
             playerHitPanel.SetActive(false); 
         }
 
-        Debug.Log("Player has died.");
+        Debug.Log("Gracz umar³.");
         GameManager.instance.DecreaseDay();
         StartCoroutine(Respawn());
     }
 
     IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(2f); 
+        yield return new WaitForSeconds(2f);
         loadingScreen.SetActive(true);
-        controller.enabled = false; 
+        controller.enabled = false;
+
         transform.position = startPostion.position;
+        velocity = Vector3.zero;
+        x = 0f;
+        z = 0f;
+
+        if (monster != null && monsterStartPosition != null)
+        {
+            MonsterAI monsterAI = monster.GetComponent<MonsterAI>();
+            if (monsterAI != null)
+            {
+                monsterAI.ResetToStartPosition();
+            }
+        }
+
         controller.enabled = true;
 
         yield return new WaitForSeconds(3f);
         loadingScreen.SetActive(false);
         currentHealth = maxHealth;
         isDead = false;
-        Debug.Log("Player has respawned.");
+        Debug.Log("Gracz respawn.");
     }
+
+
 }

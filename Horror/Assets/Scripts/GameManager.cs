@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverPanel; 
     public AudioClip ambientClip;   
     private AudioSource audioSource;
+
+    public MonsterAI monsterAI;
+
 
     void Start()
     {
@@ -62,13 +66,29 @@ public class GameManager : MonoBehaviour
         {
             gameOverPanel.SetActive(true);
         }
+
+        if (monsterAI != null)
+        {
+            monsterAI.ResetToStartPosition();
+        }
+
+        
+        StartCoroutine(LoadMainMenuAfterDelay(1f));
     }
+
+    IEnumerator LoadMainMenuAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+
 
     void UpdateDaysText()
     {
         if (daysText != null)
         {
-            daysText.text = "Days left " + currentDay;
+            daysText.text = "Pozosta³e dni " + currentDay;
         }
     }
 }

@@ -215,8 +215,26 @@ public class MonsterAI : MonoBehaviour
             isStunned = true;
             stunTimer = duration;
             navMeshAgent.isStopped = true;
-            Debug.Log("Potwór zosta³ oœlepiony i zamro¿ony!");
+            Debug.Log("Potwór zosta³ oœlepiony");
         }
     }
+    public void ResetToStartPosition()
+    {
+        navMeshAgent.Warp(startPosition.position);
+        isReturning = false;
+        isChasing = false;
+        isAttacking = false;
+        isWaiting = false;
+        isStunned = false;
+        SoundHeard = false;
+        isDead = false;
+
+        navMeshAgent.isStopped = false;
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isAttacking", false);
+        animator.SetBool("isIdle", true);
+    }
+
 
 }
