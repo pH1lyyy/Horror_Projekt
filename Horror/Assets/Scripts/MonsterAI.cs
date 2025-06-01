@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
 
 public class MonsterAI : MonoBehaviour
@@ -18,7 +17,7 @@ public class MonsterAI : MonoBehaviour
     private bool isDead = false;
     bool SoundHeard = false;
 
-    [Header("Monester states")]
+    [Header("Monster states")]
     public Transform player;
     public float detectionRadius = 7f;
     public float attackRange = 2f;
@@ -48,6 +47,24 @@ public class MonsterAI : MonoBehaviour
     {
         if (isDead) return;
 
+        if (isStunned)
+        {
+            stunTimer -= Time.deltaTime;
+            navMeshAgent.isStopped = true;
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
+            animator.SetBool("isIdle", true);
+
+            if (stunTimer <= 0f)
+            {
+                isStunned = false;
+                navMeshAgent.isStopped = false;
+            }
+
+            return; // pomijamy inne stany podczas og³uszenia
+        }
+
         if (isReturning)
         {
             ReturnToStart();
@@ -64,26 +81,9 @@ public class MonsterAI : MonoBehaviour
         {
             LookingForPlayer();
         }
+
         UpdateAnimations();
         PlayFootstepSounds();
-
-        if (isStunned)
-        {
-            stunTimer -= Time.deltaTime;
-            navMeshAgent.isStopped = true;
-            animator.SetBool("isWalking", false);
-            animator.SetBool("isRunning", false);
-            animator.SetBool("isAttacking", false);
-
-            if (stunTimer <= 0f)
-            {
-                isStunned = false;
-                navMeshAgent.isStopped = false;
-            }
-
-            return; // pomijamy inne stany
-        }
-
     }
 
     public void OnSoundHeard(Vector3 location)
@@ -98,6 +98,7 @@ public class MonsterAI : MonoBehaviour
         isWaiting = false;
         MoveToSoundLocation();
     }
+
     void MoveToSoundLocation()
     {
         navMeshAgent.SetDestination(soundLocation);
@@ -106,6 +107,7 @@ public class MonsterAI : MonoBehaviour
             StartCoroutine(WaitBeforeReturning());
         }
     }
+
     private IEnumerator WaitBeforeReturning()
     {
         isWaiting = true;
@@ -123,6 +125,7 @@ public class MonsterAI : MonoBehaviour
             isReturning = false;
         }
     }
+
     void LookingForPlayer()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius);
@@ -136,6 +139,7 @@ public class MonsterAI : MonoBehaviour
             }
         }
     }
+
     void ChasePlayer()
     {
         navMeshAgent.SetDestination(player.position);
@@ -153,61 +157,74 @@ public class MonsterAI : MonoBehaviour
             isReturning = true;
         }
     }
+
     void AttackPlayer()
     {
         if (Time.time > lastAttackTime + attackCooldown)
         {
+            animator.SetBool("isAttacking", true);
+
             PlayerControls playerControls = player.GetComponent<PlayerControls>();
             if (playerControls != null)
             {
                 playerControls.TakeDamage(49f);
             }
             lastAttackTime = Time.time;
+        }
 
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToPlayer > attackRange)
-            {
-                navMeshAgent.isStopped = false;
-                isChasing = true;
-                isAttacking = false;
-            }
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer > attackRange)
+        {
+            navMeshAgent.isStopped = false;
+            isChasing = true;
+            isAttacking = false;
+            animator.SetBool("isAttacking", false);
         }
     }
+
     void UpdateAnimations()
     {
-        float speed = navMeshAgent.velocity.magnitude;
-
-        bool isMoving = speed > 0.1f;
-        bool isRunning = speed > 3.0f;
-
-        animator.SetBool("isWalking", isMoving);
-        animator.SetBool("isRunning", isRunning);
-        animator.SetBool("isAttacking", isAttacking);
-
-        if (!isMoving && !isAttacking)
-        {
-            animator.SetBool("isIdle", true);
-        }
-        else
+        if (isDead || isStunned)
         {
             animator.SetBool("isIdle", false);
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
+            return;
         }
+
+        if (isAttacking)
+        {
+            animator.SetBool("isIdle", false);
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", true);
+            return;
+        }
+
+        float speed = navMeshAgent.velocity.magnitude;
+        bool isMoving = speed > 0.1f;
+        bool isRunning = speed > 1.0f;
+
+        animator.SetBool("isWalking", isMoving && !isRunning);
+        animator.SetBool("isRunning", isRunning);
+        animator.SetBool("isAttacking", false);
+        animator.SetBool("isIdle", !isMoving);
     }
 
     void PlayFootstepSounds()
     {
-       
-            if (navMeshAgent.velocity.magnitude > 0.1f && Time.time >= NextFootstepTime)
+        if (navMeshAgent.velocity.magnitude > 0.1f && Time.time >= NextFootstepTime)
+        {
+            if (footstepSounds.Length > 0)
             {
-                if (footstepSounds.Length > 0)
-                {
-                    AudioClip footstepSound = footstepSounds[Random.Range(0, footstepSounds.Length)];
-                    audioSource.PlayOneShot(footstepSound);
-                    NextFootstepTime = Time.time + footstepInterval;
-                }
+                AudioClip footstepSound = footstepSounds[Random.Range(0, footstepSounds.Length)];
+                audioSource.PlayOneShot(footstepSound);
+                NextFootstepTime = Time.time + footstepInterval;
             }
-        
+        }
     }
+
     public void ApplyStun(float duration)
     {
         if (!isStunned)
@@ -218,6 +235,7 @@ public class MonsterAI : MonoBehaviour
             Debug.Log("Potwór zosta³ oœlepiony");
         }
     }
+
     public void ResetToStartPosition()
     {
         navMeshAgent.Warp(startPosition.position);
@@ -235,6 +253,4 @@ public class MonsterAI : MonoBehaviour
         animator.SetBool("isAttacking", false);
         animator.SetBool("isIdle", true);
     }
-
-
 }

@@ -185,6 +185,10 @@ public class ElectricTorchOnOff : MonoBehaviour
     {
         if (_flashLightOn)
         {
+            Transform cameraTransform = Camera.main.transform;
+            transform.position = cameraTransform.position;
+            transform.rotation = cameraTransform.rotation;
+
             if (Physics.Raycast(transform.position, transform.forward, out hit, 15f))
             {
                 if (hit.collider.CompareTag("Monster"))
@@ -196,8 +200,8 @@ public class ElectricTorchOnOff : MonoBehaviour
                         MonsterAI monsterAI = hit.collider.GetComponent<MonsterAI>();
                         if (monsterAI != null)
                         {
-                            monsterAI.ApplyStun(5f); // 5 sekund stun
-                            monsterHitTime = 0f; // reset po stun
+                            monsterAI.ApplyStun(5f);
+                            monsterHitTime = 0f;
                         }
                     }
                 }
@@ -216,5 +220,6 @@ public class ElectricTorchOnOff : MonoBehaviour
             monsterHitTime = 0f;
         }
     }
+
 
 }
