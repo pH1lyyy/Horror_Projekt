@@ -21,7 +21,6 @@ public class ElectricTorchOnOff : MonoBehaviour
 
     private bool _flashLightOn = false;
 
-    // Timers
     private float _cooldownTimer = 0f;
     private float _activeTimer = 0f;
     private bool _isInCooldown = false;
@@ -29,6 +28,10 @@ public class ElectricTorchOnOff : MonoBehaviour
     private readonly float _cooldownDuration = 20f;
     private readonly float _activeDuration = 5f;
     private PlayerPickup playerPickup;
+
+    public AudioClip flashlightToggleSound; 
+    private AudioSource _audioSource;
+
 
     private void Awake()
     {
@@ -57,8 +60,15 @@ public class ElectricTorchOnOff : MonoBehaviour
             Debug.Log("Cannot find 'EmissionMaterialGlassTorchFadeOut' script");
         }
 
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            _audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
         _kCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), onOffLightKey);
     }
+
 
     void Update()
     {
@@ -136,6 +146,7 @@ public class ElectricTorchOnOff : MonoBehaviour
     {
         _flashLightOn = true;
         _activeTimer = 0f;
+        PlayToggleSound();
     }
 
     void TurnOffFlashlight()
@@ -143,7 +154,17 @@ public class ElectricTorchOnOff : MonoBehaviour
         _flashLightOn = false;
         GetComponent<Light>().intensity = 0.0f;
         _emissionMaterialFade.OffEmission();
+        PlayToggleSound();
     }
+
+    void PlayToggleSound()
+    {
+        if (flashlightToggleSound != null && _audioSource != null)
+        {
+            _audioSource.PlayOneShot(flashlightToggleSound);
+        }
+    }
+
 
     void StartCooldown()
     {

@@ -34,13 +34,19 @@ public class PlayerControls : MonoBehaviour
 
     public AudioClip[] footstepClips;
     public AudioSource footstepAudioSource;
-    public float footstepInterval = 0.4f;
+    private float currentFootstepInterval;
+    private float baseFootstepInterval = 0.8f;
+    private float sprintFootstepMultiplier = 0.55f;  // mniejszy = czêœciej
+    private float crouchFootstepMultiplier = 1.5f;  // wiêkszy = rzadziej
     private float nextFootstepTime = 0f;
+
 
     void Start()
     {
         controller = player.GetComponent<CharacterController>();
         currentHealth = maxHealth;
+        currentFootstepInterval = baseFootstepInterval;
+
     }
 
     void Update()
@@ -48,11 +54,13 @@ public class PlayerControls : MonoBehaviour
         if (!controller.enabled) return;
 
         float currentSpeed = speed;
+        currentFootstepInterval = baseFootstepInterval;
 
         // Sprint
         if (Input.GetKey(KeyCode.LeftShift) && !isCrouching)
         {
             currentSpeed = sprintSpeed;
+            currentFootstepInterval = baseFootstepInterval * sprintFootstepMultiplier;
         }
 
         // Kucanie
@@ -65,7 +73,9 @@ public class PlayerControls : MonoBehaviour
         if (isCrouching)
         {
             currentSpeed = crouchSpeed;
+            currentFootstepInterval = baseFootstepInterval * crouchFootstepMultiplier;
         }
+
 
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
@@ -180,9 +190,10 @@ public class PlayerControls : MonoBehaviour
             {
                 AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
                 footstepAudioSource.PlayOneShot(clip);
-                nextFootstepTime = Time.time + footstepInterval;
+                nextFootstepTime = Time.time + currentFootstepInterval;
 
-              
+
+
                 float distanceToMonster = Vector3.Distance(transform.position, monster.position);
                 if (distanceToMonster < 8.5f)
                 {
