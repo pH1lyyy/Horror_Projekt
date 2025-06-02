@@ -92,6 +92,10 @@ public class PlayerPickup : MonoBehaviour
             audioSource.PlayOneShot(pickupSound);
         }
     }
+    public GameObject GetCurrentItem()
+    {
+        return currentItem;
+    }
 
     void DropItem()
     {

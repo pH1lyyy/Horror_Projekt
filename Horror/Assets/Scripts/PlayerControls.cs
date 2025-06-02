@@ -32,6 +32,11 @@ public class PlayerControls : MonoBehaviour
     public Transform monster;                
     public Transform monsterStartPosition;
 
+    public AudioClip[] footstepClips;
+    public AudioSource footstepAudioSource;
+    public float footstepInterval = 0.4f;
+    private float nextFootstepTime = 0f;
+
     void Start()
     {
         controller = player.GetComponent<CharacterController>();
@@ -88,6 +93,8 @@ public class PlayerControls : MonoBehaviour
 
         velocity.y += Physics.gravity.y * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+        PlayFootstepSounds();
+
     }
     public void TakeDamage(float damage)
     {
@@ -164,6 +171,29 @@ public class PlayerControls : MonoBehaviour
         currentHealth = maxHealth;
         isDead = false;
         Debug.Log("Gracz respawn.");
+    }
+    void PlayFootstepSounds()
+    {
+        if (controller.isGrounded && (x != 0 || z != 0) && Time.time >= nextFootstepTime)
+        {
+            if (footstepClips.Length > 0 && footstepAudioSource != null)
+            {
+                AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
+                footstepAudioSource.PlayOneShot(clip);
+                nextFootstepTime = Time.time + footstepInterval;
+
+              
+                float distanceToMonster = Vector3.Distance(transform.position, monster.position);
+                if (distanceToMonster < 8.5f)
+                {
+                    MonsterAI monsterAI = monster.GetComponent<MonsterAI>();
+                    if (monsterAI != null)
+                    {
+                        monsterAI.OnSoundHeard(transform.position);
+                    }
+                }
+            }
+        }
     }
 
 

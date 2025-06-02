@@ -4893,6 +4893,10 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: d6ebd474d41004725ad636b477644c1c, type: 3}
   monster: {fileID: 690432338}
   monsterStartPosition: {fileID: 1384336178}
+  footstepClips:
+  - {fileID: 8300000, guid: 4d11813f5983ce047873c94858e6a6c1, type: 3}
+  footstepAudioSource: {fileID: 1133826807}
+  footstepInterval: 0.8
 --- !u!136 &1133826801
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7323,7 +7327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a13476dd20c854bab7e1fa4748cc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHeld: 0
 --- !u!1 &1807845263
 GameObject:
   m_ObjectHideFlags: 0

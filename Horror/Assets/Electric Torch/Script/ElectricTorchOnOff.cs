@@ -28,10 +28,20 @@ public class ElectricTorchOnOff : MonoBehaviour
 
     private readonly float _cooldownDuration = 20f;
     private readonly float _activeDuration = 5f;
+    private PlayerPickup playerPickup;
 
     private void Awake()
     {
         _batteryPower = FindObjectOfType<BatteryPowerPickup>();
+        playerPickup = FindObjectOfType<PlayerPickup>();
+    }
+
+    private bool IsHoldingFlashlight()
+    {
+        if (playerPickup == null) return false;
+
+        GameObject heldItem = playerPickup.GetCurrentItem();
+        return heldItem != null && heldItem.CompareTag("Flashlight");
     }
 
     void Start()
@@ -85,15 +95,26 @@ public class ElectricTorchOnOff : MonoBehaviour
             cooldownText.enabled = false;
         }
 
-        switch (modoLightChoose)
+        if (IsHoldingFlashlight())
         {
-            case LightChoose.noBattery:
-                NoBatteryLight();
-                break;
-            case LightChoose.withBattery:
-                WithBatteryLight();
-                break;
+            switch (modoLightChoose)
+            {
+                case LightChoose.noBattery:
+                    NoBatteryLight();
+                    break;
+                case LightChoose.withBattery:
+                    WithBatteryLight();
+                    break;
+            }
         }
+        else
+        {
+            if (_flashLightOn)
+            {
+                TurnOffFlashlight();
+            }
+        }
+
     }
 
     void InputKey()
