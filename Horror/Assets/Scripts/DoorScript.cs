@@ -1,6 +1,5 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class DoorScript : MonoBehaviour
 {
@@ -10,12 +9,15 @@ public class DoorScript : MonoBehaviour
     public LayerMask playerLayer;
     private bool isPlayerNear = false;
     public string keyLayerName = "";
-
     private bool isOpen = false;
+
+    public Text messageText;
 
     void Start()
     {
         doorAnimator = GetComponent<Animator>();
+        if (messageText != null)
+            messageText.text = "";
     }
 
     void Update()
@@ -47,13 +49,12 @@ public class DoorScript : MonoBehaviour
     {
         if (!isOpen)
         {
-            // sprawdzamy czy jest klucz
             if (!string.IsNullOrEmpty(keyLayerName))
             {
                 bool playerHasKey = false;
-                foreach (Transform key in player)
+                foreach (Transform child in player)
                 {
-                    if (key.gameObject.layer == LayerMask.NameToLayer(keyLayerName))
+                    if (child.gameObject.layer == LayerMask.NameToLayer(keyLayerName))
                     {
                         playerHasKey = true;
                         break;
@@ -61,7 +62,7 @@ public class DoorScript : MonoBehaviour
                 }
                 if (!playerHasKey)
                 {
-                    Debug.Log("Potrzebuejsz klucza aby otworzyæ drzwi.");
+                    ShowMessage($"Potrzebujesz klucza: {keyLayerName}, aby otworzyæ te drzwi.");
                     return;
                 }
             }
@@ -74,12 +75,14 @@ public class DoorScript : MonoBehaviour
         }
     }
 
+
     void OpenDoor()
     {
         if (doorAnimator != null)
         {
             doorAnimator.SetTrigger("Open");
             isOpen = true;
+            ShowMessage("");
         }
     }
 
@@ -89,6 +92,24 @@ public class DoorScript : MonoBehaviour
         {
             doorAnimator.SetTrigger("Close");
             isOpen = false;
+        }
+    }
+
+    void ShowMessage(string message)
+    {
+        if (messageText != null)
+        {
+            messageText.text = message;
+            CancelInvoke(nameof(ClearMessage));
+            Invoke(nameof(ClearMessage), 2f);
+        }
+    }
+
+    void ClearMessage()
+    {
+        if (messageText != null)
+        {
+            messageText.text = "";
         }
     }
 }

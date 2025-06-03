@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerPickup : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class PlayerPickup : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip pickupSound;
     public AudioClip dropSound;
-
+    public Text messageText;
     void Update()
     {
         if (Input.GetKeyDown(pickupKey))
@@ -62,6 +63,8 @@ public class PlayerPickup : MonoBehaviour
     {
         currentItem = item;
         item.transform.SetParent(playerBody);
+        int layer = item.layer;
+        string layerName = LayerMask.LayerToName(layer);
 
         Transform holdPoint = itemHoldPosition;
 
@@ -91,10 +94,30 @@ public class PlayerPickup : MonoBehaviour
         {
             audioSource.PlayOneShot(pickupSound);
         }
+        ShowMessage($"Podnios³eœ: {layerName}");
     }
     public GameObject GetCurrentItem()
     {
         return currentItem;
+    }
+
+
+    void ShowMessage(string message)
+    {
+        if (messageText != null)
+        {
+            messageText.text = message;
+            CancelInvoke(nameof(ClearMessage));
+            Invoke(nameof(ClearMessage), 2f);
+        }
+    }
+
+    void ClearMessage()
+    {
+        if (messageText != null)
+        {
+            messageText.text = "";
+        }
     }
 
     void DropItem()
