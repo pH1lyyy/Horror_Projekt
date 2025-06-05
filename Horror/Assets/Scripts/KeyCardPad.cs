@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class KeyCardPad : MonoBehaviour
 {
@@ -6,8 +8,8 @@ public class KeyCardPad : MonoBehaviour
     public GameObject gameCompletePanel;
 
     private AudioSource audioSource;
-    private bool isUnlocked = false;
     private Camera mainCam;
+    private bool gameCompleteShown = false;
 
     void Start()
     {
@@ -24,8 +26,6 @@ public class KeyCardPad : MonoBehaviour
 
     void Update()
     {
-        if (isUnlocked) return;
-
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
@@ -44,7 +44,7 @@ public class KeyCardPad : MonoBehaviour
         PlayerPickup player = FindObjectOfType<PlayerPickup>();
         if (player != null && playerHeldCard(player))
         {
-            Unlock();
+            UsePanel();
         }
         else
         {
@@ -61,21 +61,27 @@ public class KeyCardPad : MonoBehaviour
         return held != null && held.CompareTag("Card");
     }
 
-    void Unlock()
+    void UsePanel()
     {
-        isUnlocked = true;
-        Debug.Log("Panel odblokowany!");
+        Debug.Log("Panel u¿yty!");
 
         if (audioSource != null && unlockSound != null)
         {
             audioSource.PlayOneShot(unlockSound);
         }
 
-        if (WoodPlank.FallenPlanksCount >= 2 && gameCompletePanel != null)
+        if (!gameCompleteShown && WoodPlank.FallenPlanksCount >= 2 && gameCompletePanel != null)
         {
             gameCompletePanel.SetActive(true);
+            gameCompleteShown = true;
             Debug.Log("Game Complete!");
+            StartCoroutine(LoadMainMenuAfterDelay(1f));
         }
     }
-}
 
+    IEnumerator LoadMainMenuAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("MainMenu");
+    }
+}

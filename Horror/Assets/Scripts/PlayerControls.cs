@@ -195,7 +195,7 @@ public class PlayerControls : MonoBehaviour
 
 
                 float distanceToMonster = Vector3.Distance(transform.position, monster.position);
-                if (distanceToMonster < 8.5f)
+                if (distanceToMonster < 6.5f)
                 {
                     MonsterAI monsterAI = monster.GetComponent<MonsterAI>();
                     if (monsterAI != null)

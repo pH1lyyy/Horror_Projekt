@@ -3,7 +3,6 @@ using System.Collections;
 
 public class MonsterAI : MonoBehaviour
 {
-    [Header("Sound detection")]
 
     UnityEngine.AI.NavMeshAgent navMeshAgent;
 
@@ -17,7 +16,6 @@ public class MonsterAI : MonoBehaviour
     private bool isDead = false;
     bool SoundHeard = false;
 
-    [Header("Monster states")]
     public Transform player;
     public float detectionRadius = 7f;
     public float attackRange = 2f;
@@ -26,7 +24,6 @@ public class MonsterAI : MonoBehaviour
 
     private Animator animator;
 
-    [Header("Footstep")]
 
     public AudioClip[] footstepSounds;
     AudioSource audioSource;
@@ -62,7 +59,7 @@ public class MonsterAI : MonoBehaviour
                 navMeshAgent.isStopped = false;
             }
 
-            return; // pomijamy inne stany podczas og³uszenia
+            return;
         }
 
         if (isReturning)
