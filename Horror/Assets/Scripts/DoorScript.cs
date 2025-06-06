@@ -5,7 +5,7 @@ public class DoorScript : MonoBehaviour
 {
     Animator doorAnimator;
     public Transform player;
-    public float detectionDistance = 3f;
+    public float detectionDistance = 2f;
     public LayerMask playerLayer;
     private bool isPlayerNear = false;
     public string keyLayerName = "";
