@@ -344,6 +344,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: KitchenKey
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!1 &77260492
 GameObject:
@@ -841,6 +842,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!1 &179593293
 GameObject:
@@ -1188,6 +1190,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!1 &264595065
 GameObject:
@@ -1740,6 +1743,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &399428477
 Animator:
@@ -1873,6 +1877,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!1 &433393602
 GameObject:
@@ -2301,6 +2306,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &504151722
 Animator:
@@ -3470,7 +3476,105 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
+--- !u!82 &712358283
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712358272}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &729164293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3632,6 +3736,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &741906399
 Animator:
@@ -3931,6 +4036,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &806906392
 Animator:
@@ -3977,6 +4083,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &828883458
 Animator:
@@ -4054,6 +4161,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: BasementKey
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &878577775
 Animator:
@@ -4122,6 +4230,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: StorageKey
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!1 &917559518
 GameObject:
@@ -4211,6 +4320,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &933236818
 Animator:
@@ -4781,6 +4891,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &1056947353
 Animator:
@@ -4971,6 +5082,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!1 &1080270676
 GameObject:
@@ -4997,12 +5109,12 @@ Transform:
   m_GameObject: {fileID: 1080270676}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: -0.419, z: 0.798}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.243, y: -0.283, z: 0.642}
+  m_LocalScale: {x: 0.4444445, y: 0.44444448, z: 0.4444445}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1133826799}
-  m_LocalEulerAnglesHint: {x: 90, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1091854522
 GameObject:
   m_ObjectHideFlags: 0
@@ -5200,6 +5312,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &1121602788
 Animator:
@@ -6077,6 +6190,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!1 &1291821139
 GameObject:
@@ -6452,6 +6566,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &1349898555
 Animator:
@@ -8242,6 +8357,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &1829596954
 Animator:
@@ -8610,7 +8726,7 @@ MonoBehaviour:
   daysText: {fileID: 1229038177}
   gameOverPanel: {fileID: 532088159}
   ambientClip: {fileID: 8300000, guid: b7ccf7bfde10b814faa0fc5238490fe4, type: 3}
-  monsterAI: {fileID: 0}
+  monsterAI: {fileID: 690432335}
 --- !u!1 &1928897135
 GameObject:
   m_ObjectHideFlags: 0
@@ -9286,6 +9402,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &2118557091
 Animator:
@@ -9955,6 +10072,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8605195005540887736, guid: beef3bcde1610f04aa96275436147bb9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 712358277}
+    - targetCorrespondingSourceObject: {fileID: 8605195005540887736, guid: beef3bcde1610f04aa96275436147bb9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 712358283}
     - targetCorrespondingSourceObject: {fileID: 8605282417630416066, guid: beef3bcde1610f04aa96275436147bb9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 828883458}
@@ -10111,6 +10231,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 0}
   messageText: {fileID: 0}
 --- !u!95 &8606311150561899609
 Animator:
@@ -10162,6 +10283,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &8606311150561899613
 Animator:
@@ -10203,6 +10325,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   keyLayerName: 
+  doorSound: {fileID: 8300000, guid: a200ceb3276a64815ba89e6db4488604, type: 3}
   messageText: {fileID: 567491395}
 --- !u!95 &8606311150561899615
 Animator:

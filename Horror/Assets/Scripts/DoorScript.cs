@@ -10,11 +10,14 @@ public class DoorScript : MonoBehaviour
     private bool isPlayerNear = false;
     public string keyLayerName = "";
     private bool isOpen = false;
+    private AudioSource audioSource;
+    public AudioClip doorSound;
 
     public Text messageText;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         doorAnimator = GetComponent<Animator>();
         if (messageText != null)
             messageText.text = "";
@@ -82,6 +85,7 @@ public class DoorScript : MonoBehaviour
         {
             doorAnimator.SetTrigger("Open");
             isOpen = true;
+            PlayDoorSound();
             ShowMessage("");
         }
     }
@@ -92,8 +96,18 @@ public class DoorScript : MonoBehaviour
         {
             doorAnimator.SetTrigger("Close");
             isOpen = false;
+            PlayDoorSound();
         }
     }
+
+    void PlayDoorSound()
+    {
+        if (audioSource != null && doorSound != null)
+        {
+            audioSource.PlayOneShot(doorSound);
+        }
+    }
+
 
     void ShowMessage(string message)
     {
