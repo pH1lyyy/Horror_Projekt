@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
 
         currentDay = maxDays;
         UpdateDaysText();
+         Cursor.lockState = CursorLockMode.Locked;
+         Cursor.visible = false;
     }
 
     public void DecreaseDay()
