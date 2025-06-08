@@ -33,7 +33,6 @@ public class PlayerInteraction : MonoBehaviour
     {
         foreach (Transform child in parent)
         {
-            // Sprawdzamy warstwê, tag lub nazwê
             if (child.gameObject.layer == LayerMask.NameToLayer("Axe") ||
                 child.CompareTag("Axe") ||
                 child.name.Contains("Axe"))
@@ -42,7 +41,7 @@ public class PlayerInteraction : MonoBehaviour
                 return true;
             }
 
-            // Rekurencyjnie sprawdŸ dzieci
+
             if (IsHoldingAxe(child))
             {
                 return true;

@@ -31,6 +31,12 @@ public class MonsterAI : MonoBehaviour
     float NextFootstepTime = 0f;
     private bool isStunned = false;
     private float stunTimer = 0f;
+    public Transform[] patrolPoints;
+    private int currentPatrolIndex = 0;
+    private float patrolDelay = 5f;
+    private float patrolTimer = 0f;
+    private bool patrolStarted = false;
+
 
     void Start()
     {
@@ -43,6 +49,15 @@ public class MonsterAI : MonoBehaviour
     void Update()
     {
         if (isDead) return;
+        if (!patrolStarted)
+        {
+            patrolTimer += Time.deltaTime;
+            if (patrolTimer >= patrolDelay)
+            {
+                patrolStarted = true;
+            }
+            return;
+        }
 
         if (isStunned)
         {
@@ -77,7 +92,9 @@ public class MonsterAI : MonoBehaviour
         else if (!isWaiting)
         {
             LookingForPlayer();
+            if (!isChasing && !SoundHeard) Patrol();
         }
+
 
         UpdateAnimations();
         PlayFootstepSounds();
@@ -116,11 +133,12 @@ public class MonsterAI : MonoBehaviour
 
     void ReturnToStart()
     {
-        navMeshAgent.SetDestination(startPosition.position);
-        if (Vector3.Distance(transform.position, startPosition.position) <= navMeshAgent.stoppingDistance)
+        navMeshAgent.SetDestination(patrolPoints[currentPatrolIndex].position);
+        if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) <= navMeshAgent.stoppingDistance)
         {
             isReturning = false;
         }
+
     }
 
     void LookingForPlayer()
@@ -154,6 +172,17 @@ public class MonsterAI : MonoBehaviour
             isReturning = true;
         }
     }
+    void Patrol()
+{
+    if (patrolPoints.Length == 0) return;
+
+    navMeshAgent.SetDestination(patrolPoints[currentPatrolIndex].position);
+
+    if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) <= navMeshAgent.stoppingDistance)
+    {
+        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+    }
+}
 
     void AttackPlayer()
     {

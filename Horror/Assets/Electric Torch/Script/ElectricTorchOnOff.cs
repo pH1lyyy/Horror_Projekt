@@ -3,7 +3,6 @@ using UnityEngine.UI;
 public class ElectricTorchOnOff : MonoBehaviour
 {
     EmissionMaterialGlassTorchFadeOut _emissionMaterialFade;
-    BatteryPowerPickup _batteryPower;
 
     public enum LightChoose
     {
@@ -35,7 +34,6 @@ public class ElectricTorchOnOff : MonoBehaviour
 
     private void Awake()
     {
-        _batteryPower = FindObjectOfType<BatteryPowerPickup>();
         playerPickup = FindObjectOfType<PlayerPickup>();
     }
 
@@ -201,20 +199,14 @@ public class ElectricTorchOnOff : MonoBehaviour
                 intensityLight = 0;
             }
 
-            if (_PowerPickUp)
-            {
-                intensityLight = _batteryPower.PowerIntensityLight;
-            }
+         
         }
         else
         {
             GetComponent<Light>().intensity = 0.0f;
             _emissionMaterialFade.OffEmission();
 
-            if (_PowerPickUp)
-            {
-                intensityLight = _batteryPower.PowerIntensityLight;
-            }
+       
         }
 
         InputKey();

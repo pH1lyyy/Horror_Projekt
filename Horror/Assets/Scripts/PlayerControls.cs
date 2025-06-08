@@ -36,8 +36,8 @@ public class PlayerControls : MonoBehaviour
     public AudioSource footstepAudioSource;
     private float currentFootstepInterval;
     private float baseFootstepInterval = 0.8f;
-    private float sprintFootstepMultiplier = 0.55f;  // mniejszy = czêœciej
-    private float crouchFootstepMultiplier = 1.5f;  // wiêkszy = rzadziej
+    private float sprintFootstepMultiplier = 0.55f;
+    private float crouchFootstepMultiplier = 1.5f;
     private float nextFootstepTime = 0f;
 
 
@@ -56,14 +56,14 @@ public class PlayerControls : MonoBehaviour
         float currentSpeed = speed;
         currentFootstepInterval = baseFootstepInterval;
 
-        // Sprint
+       
         if (Input.GetKey(KeyCode.LeftShift) && !isCrouching)
         {
             currentSpeed = sprintSpeed;
             currentFootstepInterval = baseFootstepInterval * sprintFootstepMultiplier;
         }
 
-        // Kucanie
+      
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             isCrouching = !isCrouching;
