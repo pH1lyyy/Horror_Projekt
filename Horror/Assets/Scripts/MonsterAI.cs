@@ -36,7 +36,8 @@ public class MonsterAI : MonoBehaviour
     private float patrolDelay = 5f;
     private float patrolTimer = 0f;
     private bool patrolStarted = false;
-
+    private bool patrolForward = true;
+    
 
     void Start()
     {
@@ -133,13 +134,33 @@ public class MonsterAI : MonoBehaviour
 
     void ReturnToStart()
     {
-        navMeshAgent.SetDestination(patrolPoints[currentPatrolIndex].position);
-        if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) <= navMeshAgent.stoppingDistance)
+        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
         {
             isReturning = false;
-        }
 
+            float minDistance = Mathf.Infinity;
+            int closestIndex = 0;
+
+            for (int i = 0; i < patrolPoints.Length; i++)
+            {
+                float distance = Vector3.Distance(transform.position, patrolPoints[i].position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestIndex = i;
+                }
+            }
+
+            currentPatrolIndex = closestIndex;
+            patrolForward = true;
+            Patrol();
+        }
+        else
+        {
+            navMeshAgent.SetDestination(patrolPoints[currentPatrolIndex].position);
+        }
     }
+
 
     void LookingForPlayer()
     {
@@ -173,16 +194,35 @@ public class MonsterAI : MonoBehaviour
         }
     }
     void Patrol()
-{
-    if (patrolPoints.Length == 0) return;
-
-    navMeshAgent.SetDestination(patrolPoints[currentPatrolIndex].position);
-
-    if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) <= navMeshAgent.stoppingDistance)
     {
-        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+        if (!patrolStarted) return;
+
+        if (!navMeshAgent.hasPath || navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+        {
+            if (patrolForward)
+            {
+                currentPatrolIndex++;
+                if (currentPatrolIndex >= patrolPoints.Length)
+                {
+                    currentPatrolIndex = patrolPoints.Length - 2;
+                    patrolForward = false;
+                }
+            }
+            else
+            {
+                currentPatrolIndex--;
+                if (currentPatrolIndex < 0)
+                {
+                    currentPatrolIndex = 1;
+                    patrolForward = true;
+                }
+            }
+
+            navMeshAgent.SetDestination(patrolPoints[currentPatrolIndex].position);
+        }
     }
-}
+
+
 
     void AttackPlayer()
     {

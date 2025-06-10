@@ -3884,7 +3884,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -3915,6 +3915,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7250925503d24ac4184011ccade045dd, type: 3}
   patrolPoints:
   - {fileID: 51913881}
+  - {fileID: 1384336178}
 --- !u!4 &690432338 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1010010733671478586, guid: c0ec2cd63f93487d92d6623d393c83ba, type: 3}
@@ -6823,7 +6824,7 @@ MonoBehaviour:
   player: {fileID: 1133826799}
   speed: 2
   sprintSpeed: 4
-  crouchSpeed: 2.5
+  crouchSpeed: 1.5
   jumpForce: 1
   bunnyHopBoost: 1.2
   maxBunnyHopSpeed: 15
@@ -8381,6 +8382,10 @@ PrefabInstance:
     - target: {fileID: 3001713506112187442, guid: f63e65675a6e1494f940b88d554ba138, type: 3}
       propertyPath: onOffLightKey
       value: V
+      objectReference: {fileID: 0}
+    - target: {fileID: 3001713506112187442, guid: f63e65675a6e1494f940b88d554ba138, type: 3}
+      propertyPath: modoLightChoose
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3001713506112187442, guid: f63e65675a6e1494f940b88d554ba138, type: 3}
       propertyPath: flashlightToggleSound
@@ -11072,7 +11077,7 @@ Transform:
   m_GameObject: {fileID: 2048280727}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.3, y: 3.8132362, z: 6.5}
+  m_LocalPosition: {x: 4.95, y: 3.8132362, z: 10.63}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
