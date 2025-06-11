@@ -46,10 +46,6 @@ public class KeyCardPad : MonoBehaviour
         {
             UsePanel();
         }
-        else
-        {
-            Debug.Log("Potrzebujesz karty, aby odblokowaæ panel.");
-        }
     }
 
     bool playerHeldCard(PlayerPickup player)
@@ -63,7 +59,6 @@ public class KeyCardPad : MonoBehaviour
 
     void UsePanel()
     {
-        Debug.Log("Panel u¿yty!");
 
         if (audioSource != null && unlockSound != null)
         {

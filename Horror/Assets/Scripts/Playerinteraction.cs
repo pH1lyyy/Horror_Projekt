@@ -20,10 +20,6 @@ public class PlayerInteraction : MonoBehaviour
                     {
                         woodPlank.Fall();
                     }
-                    else
-                    {
-                        Debug.Log("You need an axe to break this plank.");
-                    }
                 }
             }
         }
@@ -37,7 +33,6 @@ public class PlayerInteraction : MonoBehaviour
                 child.CompareTag("Axe") ||
                 child.name.Contains("Axe"))
             {
-                Debug.Log("Gracz trzyma siekierê (znalezione: " + child.name + ")");
                 return true;
             }
 

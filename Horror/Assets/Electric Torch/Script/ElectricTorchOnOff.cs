@@ -1,36 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+
 public class ElectricTorchOnOff : MonoBehaviour
 {
     EmissionMaterialGlassTorchFadeOut _emissionMaterialFade;
 
-    public enum LightChoose
-    {
-        noBattery,
-        withBattery
-    }
-
-    public LightChoose modoLightChoose;
     public string onOffLightKey = "F";
     private KeyCode _kCode;
     public Text cooldownText;
-    public bool _PowerPickUp = false;
-    public float intensityLight = 2.5F;
-    [SerializeField] float _lightTime = 0.05f;
+    public float intensityLight = 2.5f;
 
     private bool _flashLightOn = false;
-
     private float _cooldownTimer = 0f;
     private float _activeTimer = 0f;
     private bool _isInCooldown = false;
 
     private readonly float _cooldownDuration = 20f;
     private readonly float _activeDuration = 5f;
-    private PlayerPickup playerPickup;
 
-    public AudioClip flashlightToggleSound; 
+    private PlayerPickup playerPickup;
+    public AudioClip flashlightToggleSound;
     private AudioSource _audioSource;
 
+    private RaycastHit hit;
+    private float monsterHitTime = 0f;
+    private float requiredFocusTime = 2f;
 
     private void Awake()
     {
@@ -53,10 +47,6 @@ public class ElectricTorchOnOff : MonoBehaviour
         {
             _emissionMaterialFade = _scriptControllerEmissionFade.GetComponent<EmissionMaterialGlassTorchFadeOut>();
         }
-        else
-        {
-            Debug.Log("Cannot find 'EmissionMaterialGlassTorchFadeOut' script");
-        }
 
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
@@ -66,7 +56,6 @@ public class ElectricTorchOnOff : MonoBehaviour
 
         _kCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), onOffLightKey);
     }
-
 
     void Update()
     {
@@ -105,27 +94,15 @@ public class ElectricTorchOnOff : MonoBehaviour
 
         if (IsHoldingFlashlight())
         {
-            switch (modoLightChoose)
-            {
-                case LightChoose.noBattery:
-                    NoBatteryLight();
-                    break;
-                case LightChoose.withBattery:
-                    WithBatteryLight();
-                    break;
-            }
+            HandleFlashlight();
         }
-        else
+        else if (_flashLightOn)
         {
-            if (_flashLightOn)
-            {
-                TurnOffFlashlight();
-            }
+            TurnOffFlashlight();
         }
-
     }
 
-    void InputKey()
+    void HandleFlashlight()
     {
         if (Input.GetKeyDown(_kCode))
         {
@@ -137,6 +114,17 @@ public class ElectricTorchOnOff : MonoBehaviour
             {
                 TurnOnFlashlight();
             }
+        }
+
+        if (_flashLightOn)
+        {
+            GetComponent<Light>().intensity = intensityLight;
+            _emissionMaterialFade.OnEmission();
+        }
+        else
+        {
+            GetComponent<Light>().intensity = 0.0f;
+            _emissionMaterialFade.OffEmission();
         }
     }
 
@@ -163,57 +151,11 @@ public class ElectricTorchOnOff : MonoBehaviour
         }
     }
 
-
     void StartCooldown()
     {
         _isInCooldown = true;
         _cooldownTimer = 0f;
     }
-
-    void NoBatteryLight()
-    {
-        if (_flashLightOn)
-        {
-            GetComponent<Light>().intensity = intensityLight;
-            _emissionMaterialFade.OnEmission();
-        }
-        else
-        {
-            GetComponent<Light>().intensity = 0.0f;
-            _emissionMaterialFade.OffEmission();
-        }
-
-        InputKey();
-    }
-
-    void WithBatteryLight()
-    {
-        if (_flashLightOn)
-        {
-            GetComponent<Light>().intensity = intensityLight;
-            intensityLight -= Time.deltaTime * _lightTime;
-            _emissionMaterialFade.TimeEmission(_lightTime);
-
-            if (intensityLight < 0)
-            {
-                intensityLight = 0;
-            }
-
-         
-        }
-        else
-        {
-            GetComponent<Light>().intensity = 0.0f;
-            _emissionMaterialFade.OffEmission();
-
-       
-        }
-
-        InputKey();
-    }
-    private RaycastHit hit;
-    private float monsterHitTime = 0f;
-    private float requiredFocusTime = 2f;
 
     void LateUpdate()
     {
@@ -254,6 +196,4 @@ public class ElectricTorchOnOff : MonoBehaviour
             monsterHitTime = 0f;
         }
     }
-
-
 }

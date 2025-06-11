@@ -149,7 +149,7 @@ public class PlayerControls : MonoBehaviour
             playerHitPanel.SetActive(false); 
         }
 
-        Debug.Log("Gracz umar³.");
+        Debug.Log("Gracz umarl");
         GameManager.instance.DecreaseDay();
         StartCoroutine(Respawn());
     }
@@ -180,7 +180,7 @@ public class PlayerControls : MonoBehaviour
         loadingScreen.SetActive(false);
         currentHealth = maxHealth;
         isDead = false;
-        Debug.Log("Gracz respawn.");
+        Debug.Log("respawn");
     }
     void PlayFootstepSounds()
     {

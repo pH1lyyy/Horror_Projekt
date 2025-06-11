@@ -299,7 +299,7 @@ public class MonsterAI : MonoBehaviour
             isStunned = true;
             stunTimer = duration;
             navMeshAgent.isStopped = true;
-            Debug.Log("Potwór zosta³ oœlepiony");
+            Debug.Log("stun");
         }
     }
 
