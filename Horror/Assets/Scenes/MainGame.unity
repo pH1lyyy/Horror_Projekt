@@ -3909,7 +3909,7 @@ MonoBehaviour:
   player: {fileID: 1133826799}
   detectionRadius: 15
   attackRange: 2
-  attackCooldown: 7
+  attackCooldown: 5
   footstepSounds:
   - {fileID: 8300000, guid: 7250925503d24ac4184011ccade045dd, type: 3}
   - {fileID: 8300000, guid: 7250925503d24ac4184011ccade045dd, type: 3}

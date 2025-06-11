@@ -37,7 +37,8 @@ public class MonsterAI : MonoBehaviour
     private float patrolTimer = 0f;
     private bool patrolStarted = false;
     private bool patrolForward = true;
-    
+    private float respawnPatrolDelay = 5f;
+
 
     void Start()
     {
@@ -318,5 +319,15 @@ public class MonsterAI : MonoBehaviour
         animator.SetBool("isRunning", false);
         animator.SetBool("isAttacking", false);
         animator.SetBool("isIdle", true);
+
+        patrolStarted = false;
+        patrolTimer = 0f;     
+        StartCoroutine(WaitBeforePatrolAfterRespawn());
     }
+    private IEnumerator WaitBeforePatrolAfterRespawn()
+    {
+        yield return new WaitForSeconds(respawnPatrolDelay);
+        patrolStarted = true;
+    }
+
 }
